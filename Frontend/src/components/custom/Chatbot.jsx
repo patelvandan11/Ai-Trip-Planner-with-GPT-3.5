@@ -42,7 +42,7 @@ const Chatbot = () => {
                                 {message.text}
                             </div>
                         ))}
-                        {loading && <div className="text-gray-500">Bot is typing...</div>}
+                        {loading && <div className="text-gray-500">${ans}</div>}
                     </div>
                     <div className="flex p-2 border-t">
                         <input
