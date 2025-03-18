@@ -46,42 +46,43 @@ const Indestination = () => {
     }, []);
 
     return (
-        <div className="w-full p-6 py-8 relative overflow-x-hidden">
-            <h2 className="text-2xl md:text-3xl font-bold text-left mb-6">
+        <div className="w-full px-4 py-8 md:p-6 lg:p-8 relative">
+            <h2 className="text-2xl md:text-3xl font-bold text-left mb-4 md:mb-6">
                 Discover the Best Destinations in India
             </h2>
-            <div className="relative flex items-center">
+            <div className="relative">
                 {/* Left Scroll Button */}
                 {showLeftButton && (
                     <button
-                        className="absolute left-0 z-10 p-2 bg-white rounded-full shadow-lg hidden md:flex"
+                        className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-1.5 md:p-2 bg-white rounded-full shadow-lg hidden md:flex items-center justify-center"
                         onClick={() => scroll("left")}
+                        aria-label="Scroll left"
                     >
-                        <ChevronLeft size={24} />
+                        <ChevronLeft size={20} />
                     </button>
                 )}
 
                 {/* Scrollable Destinations */}
                 <div
                     ref={scrollRef}
-                    className="flex space-x-4 px-2 md:px-8 scroll-smooth no-scrollbar overflow-x-auto md:overflow-y-hidden"
+                    className="flex gap-3 md:gap-4 px-0 md:px-8 overflow-x-auto scrollbar-hide snap-x snap-mandatory"
                     style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
                 >
                     {destinations.map((dest, index) => (
                         <div
                             key={index}
-                            className="min-w-[250px] sm:min-w-[300px] md:min-w-[350px] flex-shrink-0 relative rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105"
-                            style={{ transition: "transform 0.3s ease-in-out" }}
+                            className="snap-start min-w-[220px] sm:min-w-[280px] md:min-w-[320px] flex-shrink-0 relative rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
                         >
                             <img
                                 src={dest.image}
                                 alt={dest.name}
-                                className="w-full h-48 object-cover"
+                                className="w-full h-40 sm:h-48 object-cover"
+                                loading="lazy"
                             />
-                            <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 p-4">
-                                <h3 className="text-white text-lg font-semibold">{dest.name}</h3>
-                                <p className="text-white text-sm">
-                                    From <span className="font-bold">{dest.price}</span> /- per day
+                            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-3 md:p-4">
+                                <h3 className="text-white text-base md:text-lg font-semibold">{dest.name}</h3>
+                                <p className="text-white/90 text-xs md:text-sm mt-1">
+                                    From <span className="font-bold">{dest.price}</span> per day
                                 </p>
                             </div>
                         </div>
@@ -91,26 +92,26 @@ const Indestination = () => {
                 {/* Right Scroll Button */}
                 {showRightButton && (
                     <button
-                        className="absolute right-0 z-10 p-2 bg-white rounded-full shadow-lg hidden md:flex"
+                        className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-1.5 md:p-2 bg-white rounded-full shadow-lg hidden md:flex items-center justify-center"
                         onClick={() => scroll("right")}
+                        aria-label="Scroll right"
                     >
-                        <ChevronRight size={24} />
+                        <ChevronRight size={20} />
                     </button>
                 )}
             </div>
-
-            <style jsx>{`
-                @media (max-width: 768px) {
-                    .flex {
-                        flex-direction: column;
-                        overflow-y: auto;
-                        overflow-x: hidden;
-                    }
-                    .space-x-4 {
-                        margin-bottom: 1rem;
-                    }
-                }
-            `}</style>
+            
+            {/* Mobile scroll indicators */}
+            <div className="flex justify-center mt-4 gap-1 md:hidden">
+                {Array.from({ length: destinations.length }).map((_, index) => (
+                    <div 
+                        key={index} 
+                        className={`h-1 rounded-full w-6 ${
+                            index === 0 ? 'bg-gray-800' : 'bg-gray-300'
+                        }`} 
+                    />
+                ))}
+            </div>
         </div>
     );
 };

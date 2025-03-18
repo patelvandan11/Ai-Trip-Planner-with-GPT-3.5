@@ -1,60 +1,139 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import Input from '../ui/input';
-import { Button } from '@/components/ui/button';
+import React, { useState } from "react";
+import axios from "axios";
 
-function CreateTrip() {
-  const navigate = useNavigate();
-  const [formData, setFormData] = React.useState({
-    destination: '',
-    days: '',
-    requirements: '',
-    budget: ''
-  });
+const CreateTrip = () => {
+  const [city, setCity] = useState("");
+  const [weather, setWeather] = useState(null);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const fetchWeather = async () => {
+    setError("");
+    setWeather(null);
+    setLoading(true);
+
+    if (!city.trim()) {
+      setError("Please enter a city name.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      // Make sure the API endpoint matches your FastAPI backend URL
+      const response = await axios.get(`http://localhost:8000/weather/${encodeURIComponent(city)}`);
+      console.log('API Response:', response.data); // Debug log
+
+      if (response.data.error) {
+        throw new Error(response.data.error);
+      }
+
+      // Set the weather data from the response
+      setWeather({
+        city: response.data.city,
+        temperature: response.data.temperature,
+        description: response.data.description
+      });
+      
+    } catch (err) {
+      console.error("Error fetching data:", err);
+      setError(err.response?.data?.error || err.message || "Error fetching weather data.");
+    } finally {
+      setLoading(false);
+    }
   };
 
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate('/feature');
+    fetchWeather();
   };
 
   return (
-    <div className='px-5 mt-10 flex-col flex items-center gap-4 sm:px-10 md:px-32 lg:px-56 xl:px-72'>
-      <h2 className='font-bold text-3xl flex justify-center text-black-500'>
-        Tell us your travel preferences 🏕️🌴
-      </h2>
-      <p className='mt-3 text-gray-500 text-xl text-center'>
-        Just provide some basic information, and our trip planner will generate a customized itinerary based on your preferences.
-      </p>
+    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+        <div className="md:flex">
+          <div className="p-8 w-full">
+            <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold mb-1">
+              Weather Lookup
+            </div>
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">
+              Enter Your City 🌍
+            </h2>
+            <p className="text-gray-600 mb-6">
+              Get the current weather conditions for any city around the world.
+            </p>
+            
+            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2">
+              <input
+                type="text"
+                placeholder="Enter city name..."
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                className="flex-grow px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
+              <button 
+                type="submit"
+                disabled={loading}
+                className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition duration-300 disabled:opacity-50"
+              >
+                {loading ? 'Loading...' : 'Get Weather'}
+              </button>
+            </form>
 
-      <form onSubmit={handleSubmit} className='w-full'>
-        <div className='mt-20 flex flex-col gap-9'>
-          <div>
-            <h2 className='text-xl my-3 font-medium'>What is your destination?</h2>
-            <Input name='destination' value={formData.destination} onChange={handleChange} placeholder='Destination' type='text' required />
-          </div>
-          <div>
-            <h2 className='text-xl my-3 font-medium'>How many days are you planning your trip?</h2>
-            <Input name='days' value={formData.days} onChange={handleChange} placeholder='ex 3' type='number' required />
-          </div>
-          <div>
-            <h2 className='text-xl my-3 font-medium'>Your requirements for the trip (<i>Eg. </i>adventure, nature, etc.)</h2>
-            <Input name='requirements' value={formData.requirements} onChange={handleChange} placeholder='Eg. Adventure, Nature' type='text' required />
-          </div>
-          <div>
-            <h2 className='text-xl my-3 font-medium'>What is your budget?</h2>
-            <Input name='budget' value={formData.budget} onChange={handleChange} placeholder='ex 5000' type='number' required />
+            {error && (
+              <div className="mt-4 bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded">
+                <p>❌ {error}</p>
+              </div>
+            )}
+
+            {weather && (
+              <div className="mt-6 bg-blue-50 rounded-lg p-6 shadow-sm">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-xl font-semibold text-gray-800">
+                    🌆 {weather.city}
+                  </h3>
+                  <span className="text-3xl">
+                    {weather.description ? getWeatherEmoji(weather.description) : '🌤️'}
+                  </span>
+                </div>
+                <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="bg-white p-3 rounded-md shadow-sm">
+                    <p className="text-gray-500 text-sm">Temperature</p>
+                    <p className="text-2xl font-bold text-gray-800">
+                      {weather.temperature}°C
+                    </p>
+                  </div>
+                  <div className="bg-white p-3 rounded-md shadow-sm">
+                    <p className="text-gray-500 text-sm">Condition</p>
+                    <p className="text-lg font-medium text-gray-800 capitalize">
+                      {weather.description || 'Unknown'}
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-4 text-sm text-gray-600">
+                  <p>Plan your trip accordingly based on the weather conditions!</p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
-        <div className='mt-6 flex justify-center'>
-          <Button type='submit'>Submit</Button>
-        </div>
-      </form>
+      </div>
     </div>
   );
+};
+
+// Helper function to get appropriate emoji based on weather description
+function getWeatherEmoji(description) {
+  if (!description) return '🌤️';
+  
+  const desc = description.toLowerCase();
+  if (desc.includes('clear')) return '☀️';
+  if (desc.includes('cloud')) return '☁️';
+  if (desc.includes('rain')) return '🌧️';
+  if (desc.includes('snow')) return '❄️';
+  if (desc.includes('thunder')) return '⛈️';
+  if (desc.includes('fog') || desc.includes('mist')) return '🌫️';
+  return '🌤️';
 }
 
 export default CreateTrip;

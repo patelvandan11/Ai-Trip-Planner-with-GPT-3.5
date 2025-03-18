@@ -11,7 +11,7 @@ const Hwork = () => {
     },
     {
       id: 2,
-      title: "Unleash AI’s Itinerary Wizardry!",
+      title: "Unleash AI's Itinerary Wizardry!",
       description:
         "Get a unique itinerary completely personalized for you, with all bookings in one place.",
       image: "./2.jpg",
@@ -33,21 +33,34 @@ const Hwork = () => {
   ];
 
   return (
-    <section className="text-center py-9 bg-white">
-      <h2 className="text-3xl font-bold mb-4 mt-5 text-left ml-6">How it works?</h2>
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-8 px-6 md:p-8">
-        {steps.map((step) => (
-          <div key={step.id} className="flex flex-col items-center text-center">
-            <span className="text-6xl font-bold text-gray-300 ml-6">{step.id}</span>
-            <img src={step.image} alt={step.title} className="w-50 h-50 my-4" />
-            <h3 className="font-bold text-lg mb-2">{step.title}</h3>
-            <p className="text-gray-600 text-sm">{step.description}</p>
-          </div>
-        ))}
+    <section className="py-6 sm:py-9 bg-white w-full overflow-hidden">
+      <div className="container mx-auto px-4 sm:px-6">
+        <h2 className="text-2xl sm:text-3xl font-bold mb-4 mt-3 sm:mt-5 text-left">How it works?</h2>
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+          {steps.map((step) => (
+            <div 
+              key={step.id} 
+              className="flex flex-col items-center text-center p-4 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-gray-50 rounded-xl cursor-pointer"
+            >
+              <span className="text-4xl sm:text-6xl font-bold text-gray-300 transition-colors duration-300 group-hover:text-yellow-400">{step.id}</span>
+              <img 
+                src={step.image} 
+                alt={step.title} 
+                className="w-full max-w-[200px] h-auto my-3 sm:my-4 rounded-lg shadow-sm transition-transform duration-300 "
+              />
+              <h3 className="font-bold text-base sm:text-lg mb-1 sm:mb-2 transition-colors duration-300 hover:text-yellow-500">{step.title}</h3>
+              <p className="text-gray-600 text-xs sm:text-sm">{step.description}</p>
+            </div>
+          ))}
+        </div>
+        
+        <div className="text-center mt-6 sm:mt-8">
+          <button className="text-black bg-yellow-400 md:text-base px-4 py-2 md:px-6 md:py-3 rounded-lg transition-all hover:scale-105 hover:bg-white">
+            Plan Itinerary For Free
+          </button>
+        </div>
       </div>
-      <button className="mt-8 bg-yellow-400 text-black font-bold py-3 px-6 rounded-lg shadow-md hover:bg-yellow-500">
-        Plan Itinerary For Free
-      </button>
     </section>
   );
 };
