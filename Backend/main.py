@@ -2,9 +2,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import requests
 
-from dotenv import load_dotenv
-
-load_dotenv()
 app = FastAPI()
 
 # Enable CORS
@@ -16,7 +13,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
+API_KEY = "20d8311b774127e9b4e2bec6fb727de2"
 
 @app.get("/weather/{city}")
 async def get_weather(city: str):
