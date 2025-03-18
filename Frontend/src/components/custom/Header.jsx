@@ -18,7 +18,7 @@ function Header() {
         {/* Desktop menu */}
         <div className='hidden md:flex gap-4 lg:gap-7'>
           <Button className="text-black bg-yellow-400 md:text-base px-4 py-2 md:px-6 md:py-3 rounded-lg transition-all hover:scale-105" onClick={() => window.location.href = "/"}>Home</Button>
-          <Button className="text-black bg-yellow-400 md:text-base px-4 py-2 md:px-6 md:py-3 rounded-lg transition-all hover:scale-105">Sign Up</Button>
+          <Button className="text-black bg-yellow-400 md:text-base px-4 py-2 md:px-6 md:py-3 rounded-lg transition-all hover:scale-105" onClick={() => window.location.href = "/signup"}>Sign Up</Button>
           <Button className="text-black bg-yellow-400 md:text-base px-4 py-2 md:px-6 md:py-3 rounded-lg transition-all hover:scale-105">About</Button>
           <Button className="text-black bg-yellow-400 md:text-base px-4 py-2 md:px-6 md:py-3 rounded-lg transition-all hover:scale-105" onClick={() => window.location.href = "/login"}>Login</Button>
         </div>
