@@ -7,6 +7,8 @@ import CreateTrip from './components/custom/Create_trip.jsx'
 import Header from './components/custom/Header.jsx'
 import Chatbot from './components/custom/Chatbot.jsx'
 import Features from './components/custom/Features.jsx'
+import Form from './components/custom/Form.jsx'
+import Login from './components/custom/Login'
 
 const router = createBrowserRouter(
   [
@@ -21,6 +23,14 @@ const router = createBrowserRouter(
     {
       path: '/feature',
       element: <Features />
+    },
+    {
+      path: '/form',
+      element: <Form />
+    },
+    {
+      path: '/login',
+      element: <Login />
     }
   ]
 )
