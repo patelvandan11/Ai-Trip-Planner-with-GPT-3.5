@@ -9,6 +9,7 @@ import Chatbot from './components/custom/Chatbot.jsx'
 import Features from './components/custom/Features.jsx'
 import Form from './components/custom/Form.jsx'
 import Login from './components/custom/Login'
+import SignUp from './components/custom/SignUp'
 
 const router = createBrowserRouter(
   [
@@ -31,6 +32,10 @@ const router = createBrowserRouter(
     {
       path: '/login',
       element: <Login />
+    },
+    {
+      path: '/signup',
+      element: <SignUp />
     }
   ]
 )
