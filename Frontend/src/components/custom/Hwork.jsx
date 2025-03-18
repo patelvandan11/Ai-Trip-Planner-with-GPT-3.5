@@ -56,7 +56,7 @@ const Hwork = () => {
         </div>
         
         <div className="text-center mt-6 sm:mt-8">
-          <button className="text-black bg-yellow-400 md:text-base px-4 py-2 md:px-6 md:py-3 rounded-lg transition-all hover:scale-105 hover:bg-white">
+          <button className="text-black bg-yellow-400 md:text-base px-4 py-2 md:px-6 md:py-3 rounded-lg transition-all hover:scale-105 hover:bg-white" onClick={() => window.location.href = "/form"}>
             Plan Itinerary For Free
           </button>
         </div>
