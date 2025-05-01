@@ -1,6 +1,12 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import requests
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+API_KEY = "wather_api_key"  # Replace with your OpenWeatherMap API key
 
 app = FastAPI()
 
@@ -12,8 +18,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-API_KEY = "20d8311b774127e9b4e2bec6fb727de2"
 
 @app.get("/weather/{city}")
 async def get_weather(city: str):
