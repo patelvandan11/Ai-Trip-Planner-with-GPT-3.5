@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import requests
+<<<<<<< HEAD
 from dotenv import load_dotenv
 from pydantic import BaseModel
 import openai
@@ -11,6 +12,15 @@ from typing import Optional
 load_dotenv()
 API_KEY = "WEATHER_API"  # Replace with your weather API key
 model_id = "ft:gpt-4o-mini-2024-07-18:personal:ai-trip-planner-final:BTKhoUKU"
+=======
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+API_KEY = "wather_api_key"  # Replace with your OpenWeatherMap API key
+
+>>>>>>> 9df9e3dbaee85e1f4a802c2c7c249224658bf146
 app = FastAPI()
 
 # Enable CORS
@@ -22,9 +32,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+<<<<<<< HEAD
 # Configure OpenAI
 openai.api_key = "OPENAI_API_KEY"  # Replace with your OpenAI API key
 
+=======
+>>>>>>> 9df9e3dbaee85e1f4a802c2c7c249224658bf146
 @app.get("/weather/{city}")
 async def get_weather(city: str):
     if not city:
