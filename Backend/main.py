@@ -11,7 +11,7 @@ from typing import Optional
 # Load environment variables
 load_dotenv()
 API_KEY = "WEATHER_API"  # Replace with your weather API key
-model_id = "ft:gpt-4o-mini-2024-07-18:personal:ai-trip-planner-final:BTKhoUKU"
+model_id = "model"
 =======
 import os
 from dotenv import load_dotenv
