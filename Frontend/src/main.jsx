@@ -10,40 +10,43 @@ import Features from './components/custom/Features.jsx'
 import Form from './components/custom/Form.jsx'
 import Login from './components/custom/Login'
 import SignUp from './components/custom/SignUp'
+import Finetune from './components/custom/Finetune.jsx'
 
-const router = createBrowserRouter(
-  [
-    {
-      path: '/',
-      element: <App />
-    },
-    {
-      path: '/create-trip',
-      element: <CreateTrip />
-    },
-    {
-      path: '/feature',
-      element: <Features />
-    },
-    {
-      path: '/form',
-      element: <Form />
-    },
-    {
-      path: '/login',
-      element: <Login />
-    },
-    {
-      path: '/signup',
-      element: <SignUp />
-    }
-  ]
-)
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <App />
+  },
+  {
+    path: '/create-trip',
+    element: <CreateTrip />
+  },
+  {
+    path: '/feature',
+    element: <Features />
+  },
+  {
+    path: '/form',
+    element: <Form />
+  },
+  {
+    path: '/login',
+    element: <Login />
+  },
+  {
+    path: '/signup',
+    element: <SignUp />
+  },
+  {
+    path: '/finetune',
+    element: <Finetune />
+  }
+])
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Header></Header>
+    <Header />
     <RouterProvider router={router}/>
-    <Chatbot></Chatbot>
+    <Chatbot />
   </StrictMode>
 )

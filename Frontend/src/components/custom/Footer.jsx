@@ -6,7 +6,7 @@ const Footer = () => {
                 <div className="bg-yellow-400 text-black rounded-lg p-4 sm:p-6 mb-6 sm:mb-8">
                     <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                         <div className="text-center md:text-left w-full md:w-auto">
-                            <h2 className="text-xl sm:text-2xl font-bold">Join The Tarzan Way Community</h2>
+                            <h2 className="text-xl sm:text-2xl font-bold">Join The with Community</h2>
                             <p className="text-sm sm:text-base mt-1">Get Early Bird Deals, Extra Discounts & Priority Customer Support.</p>
                         </div>
                         <div className="flex flex-col sm:flex-row gap-2 mt-4 md:mt-0 w-full md:w-auto">
@@ -31,9 +31,9 @@ const Footer = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
                     {/* Company Info */}
                     <div className="text-center sm:text-left">
-                        <h3 className="text-lg font-semibold">thetarzanway</h3>
+                        <h3 className="text-lg font-semibold">the Tripzz</h3>
                         <p className="text-sm mt-2">
-                            The Tarzan Way is a travel-based startup with a vision to simplify travel and build immersive travel programs across India.
+                            The Tripzz is a travel-based startup with a vision to simplify travel and build immersive travel programs across India.
                         </p>
                         <div className="flex justify-center sm:justify-start gap-3 mt-4">
                             <a href="#" className="text-black text-xl">🌐</a>
@@ -75,7 +75,6 @@ const Footer = () => {
                         <ul className="text-sm mt-2 space-y-1">
                             <li>Terms of Service</li>
                             <li>Privacy Policy</li>
-                            <li>COVID-19 Safety</li>
                             <li>Subscribe</li>
                         </ul>
                     </div>

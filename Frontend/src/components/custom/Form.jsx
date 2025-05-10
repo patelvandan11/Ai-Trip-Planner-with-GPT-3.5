@@ -1,31 +1,53 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { Button } from '../ui/button'; // Ensure this import is correct
+import { Button } from '../ui/button';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function Form() {
-  const [destination, setDestination] = useState('');
-  const [budget, setBudget] = useState('');
-  const [days, setDays] = useState('');
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
-  const [transport, setTransport] = useState('');
-  const [requirement, setRequirement] = useState('');
-  const [child, setChild] = useState(false);
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    destination: '',
+    budget: '',
+    days: '',
+    startDate: new Date(),
+    endDate: new Date(),
+    transport: '',
+    requirement: '',
+    child: false
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [itinerary, setItinerary] = useState(null);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log({
-      destination,
-      budget,
-      days,
-      startDate,
-      endDate,
-      transport,
-      requirement,
-      child,
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === "checkbox" ? checked : value,
     });
   };
+
+  const handleDateChange = (date, name) => {
+    setFormData(prev => ({
+      ...prev,
+      [name]: date
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post("http://localhost:8000/api/plan", formData);
+      console.log("Response:", res.data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+
+    
 
   return (
     <div className='sm:px-10 md:px-32 lg:px-56 xl:px-72 px-5 mt-10'>
@@ -37,68 +59,90 @@ function Form() {
           Share a few details, and our trip planner will craft a personalized itinerary tailored to your preferences.
         </p>
 
+        {error && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+            {error}
+          </div>
+        )}
+
         <form onSubmit={handleSubmit}>
           <div className="mb-6">
-            <label className="block text-xl font-medium mb-2 text-gray-700">Destination (City)</label>
+            <label className="block text-xl font-medium mb-2 text-gray-700">Destination (City) *</label>
             <input
               type="text"
-              value={destination}
-              onChange={(e) => setDestination(e.target.value)}
+              name="destination"
+              value={formData.destination}
+              onChange={handleChange}
+              required
               className="border border-gray-300 p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+              placeholder="Enter city name"
             />
           </div>
 
           <div className="mb-6">
-            <label className="block text-xl font-medium mb-2 text-gray-700">Budget</label>
+            <label className="block text-xl font-medium mb-2 text-gray-700">Budget ($) *</label>
             <input
               type="number"
-              value={budget}
-              onChange={(e) => setBudget(e.target.value)}
+              name="budget"
+              value={formData.budget}
+              onChange={handleChange}
+              required
+              min="0"
               className="border border-gray-300 p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+              placeholder="Enter your budget"
             />
           </div>
 
           <div className="mb-6">
-            <label className="block text-xl font-medium mb-2 text-gray-700">Number of Days</label>
+            <label className="block text-xl font-medium mb-2 text-gray-700">Number of Days *</label>
             <input
               type="number"
-              value={days}
-              onChange={(e) => setDays(e.target.value)}
+              name="days"
+              value={formData.days}
+              onChange={handleChange}
+              required
+              min="1"
+              max="30"
               className="border border-gray-300 p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+              placeholder="Enter number of days"
             />
           </div>
 
           <div className="mb-6">
-            <label className="block text-xl font-medium mb-2 text-gray-700">Time Limit</label>
+            <label className="block text-xl font-medium mb-2 text-gray-700">Time Limit *</label>
             <div className="flex flex-col sm:flex-row gap-2">
               <DatePicker
-                selected={startDate}
-                onChange={(date) => setStartDate(date)}
+                selected={formData.startDate}
+                onChange={(date) => handleDateChange(date, 'startDate')}
                 selectsStart
-                startDate={startDate}
-                endDate={endDate}
+                startDate={formData.startDate}
+                endDate={formData.endDate}
                 className="border border-gray-300 p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                placeholderText="Start date"
               />
               <DatePicker
-                selected={endDate}
-                onChange={(date) => setEndDate(date)}
+                selected={formData.endDate}
+                onChange={(date) => handleDateChange(date, 'endDate')}
                 selectsEnd
-                startDate={startDate}
-                endDate={endDate}
-                minDate={startDate}
+                startDate={formData.startDate}
+                endDate={formData.endDate}
+                minDate={formData.startDate}
                 className="border border-gray-300 p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                placeholderText="End date"
               />
             </div>
           </div>
 
           <div className="mb-6">
-            <label className="block text-xl font-medium mb-2 text-gray-700">Travel Through</label>
+            <label className="block text-xl font-medium mb-2 text-gray-700">Travel Through *</label>
             <select
-              value={transport}
-              onChange={(e) => setTransport(e.target.value)}
+              name="transport"
+              value={formData.transport}
+              onChange={handleChange}
+              required
               className="border border-gray-300 p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
             >
-              <option value="">Select</option>
+              <option value="">Select transportation</option>
               <option value="bus">Bus</option>
               <option value="train">Train</option>
               <option value="flight">Flight</option>
@@ -106,27 +150,29 @@ function Form() {
           </div>
 
           <div className="mb-6">
-            <label className="block text-xl font-medium mb-2 text-gray-700">User Requirements</label>
+            <label className="block text-xl font-medium mb-2 text-gray-700">Travel Style *</label>
             <select
-              value={requirement}
-              onChange={(e) => setRequirement(e.target.value)}
+              name="requirement"
+              value={formData.requirement}
+              onChange={handleChange}
+              required
               className="border border-gray-300 p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
             >
-              <option value="">Select</option>
+              <option value="">Select travel style</option>
               <option value="luxury">Luxury</option>
               <option value="budget">Budget Friendly</option>
             </select>
           </div>
 
           <div className="mb-6">
-            <label className="block text-xl font-medium mb-2 text-gray-700">Child</label>
+            <label className="block text-xl font-medium mb-2 text-gray-700">Traveling with Children?</label>
             <div className="flex gap-4">
               <label className="flex items-center">
                 <input
                   type="radio"
-                  value="yes"
-                  checked={child === true}
-                  onChange={() => setChild(true)}
+                  name="child"
+                  checked={formData.child === true}
+                  onChange={() => setFormData(prev => ({ ...prev, child: true }))}
                   className="mr-2"
                 />
                 Yes
@@ -134,9 +180,9 @@ function Form() {
               <label className="flex items-center">
                 <input
                   type="radio"
-                  value="no"
-                  checked={child === false}
-                  onChange={() => setChild(false)}
+                  name="child"
+                  checked={formData.child === false}
+                  onChange={() => setFormData(prev => ({ ...prev, child: false }))}
                   className="mr-2"
                 />
                 No
@@ -145,8 +191,12 @@ function Form() {
           </div>
 
           <div className="flex justify-center mt-6">
-            <Button type="submit" className="text-white bg-blue-600 md:text-base px-4 py-2 md:px-6 md:py-3 rounded-lg transition-all hover:scale-105 hover:bg-blue-700">
-              Submit
+            <Button 
+              type="submit" 
+              disabled={loading}
+              className="text-white bg-blue-600 md:text-base px-4 py-2 md:px-6 md:py-3 rounded-lg transition-all hover:scale-105 hover:bg-blue-700 disabled:opacity-50"
+            >
+              {loading ? 'Generating Itinerary...' : 'Generate Itinerary'}
             </Button>
           </div>
         </form>

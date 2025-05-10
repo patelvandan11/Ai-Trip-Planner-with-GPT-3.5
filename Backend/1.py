@@ -1,6 +1,6 @@
 # from google import genai
 
-# client = genai.Client(api_key="AIzaSyAcF_zwA6uU8DO_MsPZ6zu7qpeMY32CpcQ")
+# client = genai.Client(api_key="api ")
 
 # response = client.models.generate_content(
 #     model="gemini-2.0-flash",
@@ -19,7 +19,7 @@ import pandas as pd
 import os
 
 # Set your OpenAI API key
-os.environ["OPENAI_API_KEY"] = "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"  # Replace with your actual key
+os.environ["OPENAI_API_KEY"] = "OPENAI_API_KEY"  # Replace with your actual key
 
 # URL to scrape
 url = "https://toursinindia.in/tours-india/delhi-agra-tour-package.php"

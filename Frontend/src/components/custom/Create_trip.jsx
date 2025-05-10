@@ -78,6 +78,7 @@ const CreateTrip = () => {
               >
                 {loading ? 'Loading...' : 'Get Weather'}
               </button>
+              <button type=""></button>
             </form>
 
             {error && (
