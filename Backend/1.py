@@ -1,13 +1,4 @@
-# from google import genai
-
-# client = genai.Client(api_key="api ")
-
-# response = client.models.generate_content(
-#     model="gemini-2.0-flash",
-#     contents="Explain how AI works in a few words",
-# )
-
-# print(response.text)
+ 
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -22,7 +13,7 @@ import os
 os.environ["OPENAI_API_KEY"] = "OPENAI_API_KEY"  # Replace with your actual key
 
 # URL to scrape
-url = "https://toursinindia.in/tours-india/delhi-agra-tour-package.php"
+url = ""
 response = requests.get(url)
 soup = BeautifulSoup(response.text, "html.parser")
 
