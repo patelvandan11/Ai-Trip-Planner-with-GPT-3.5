@@ -1,2 +1,16 @@
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+venv/
+env/
+
+# PyCharm project files
+.idea/
+
+# Environment files
 .env
-__pycache__
+
+# macOS
+.DS_Store
